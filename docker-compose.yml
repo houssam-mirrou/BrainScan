@@ -1,0 +1,29 @@
+services:
+
+  notebook:
+    build: .
+    working_dir: /workspace/notebooks
+    ports:
+      - "127.0.0.1:8888:8888"
+    volumes:
+      - .:/workspace
+    command: >
+      jupyter lab
+      --ip=0.0.0.0
+      --port=8888
+      --no-browser
+      --allow-root
+      --ServerApp.token=brainscan-dev
+
+  streamlit:
+    build: .
+    profiles:
+      - app
+    working_dir: /workspace
+    ports:
+      - "127.0.0.1:8501:8501"
+    volumes:
+      - .:/workspace
+    command: >
+      streamlit run app/streamlit_app.py
+      --server.address=0.0.0.0
