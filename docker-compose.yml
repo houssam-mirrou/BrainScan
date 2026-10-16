@@ -1,7 +1,9 @@
 services:
 
   notebook:
-    build: .
+    build:
+      context: .
+      dockerfile: dockerfile
     working_dir: /workspace/notebooks
     ports:
       - "127.0.0.1:8888:8888"
@@ -16,9 +18,9 @@ services:
       --ServerApp.token=brainscan-dev
 
   streamlit:
-    build: .
-    profiles:
-      - app
+    build:
+      context: .
+      dockerfile: dockerfile
     working_dir: /workspace
     ports:
       - "127.0.0.1:8501:8501"
@@ -27,3 +29,5 @@ services:
     command: >
       streamlit run app/streamlit_app.py
       --server.address=0.0.0.0
+      --server.port=8501
+      --server.headless=true
